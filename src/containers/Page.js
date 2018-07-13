@@ -8,17 +8,17 @@ export default class Page extends PureComponent {
     state = {
         show: false
     };
+    
     render() {
-        const display = this.state.show ? 'block' : 'none';
+        const { show } = this.state;
+        const display = show ? 'block' : 'none';
         return (
             <div className="font-box">
                 <img src={image1} />
                 <img style={{ display: `${display}` }} src={image2} />
                 <br />
-                <Button
-                    onClick={() => this.setState({ show: !this.state.show })}
-                >
-                    我是button
+                <Button onClick={() => this.setState({ show: !show })}>
+                    {show ? '- 1' : '+ 1'}
                 </Button>
             </div>
         );
