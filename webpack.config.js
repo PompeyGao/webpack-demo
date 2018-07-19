@@ -67,7 +67,7 @@ module.exports = (env, argv) => ({
                             },
                             optipng: {
                                 // 使用 imagemin-optipng 压缩 png，enable: false 为关闭
-                                enabled: false
+                                enabled: true
                             },
                             pngquant: {
                                 // 使用 imagemin-pngquant 压缩 png
