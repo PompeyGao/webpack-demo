@@ -1,0 +1,9 @@
+{
+    "id": 2,
+    "title": "a标签的diabled属性在IE仍可点击解决办法",
+    "description":
+        "问题描述 如下代码，将<a/>赋予disabled，在chrome浏览器中，<a/>样式也变成了灰色，点击<a/>[...]",
+    "date": "2018-05-17",
+    "article":
+        "解决方法 使用 pointer-events 属性：auto——效果和没有定义pointer-events属性相同，鼠标不会穿透当前层。在SVG中，该值和visiblePainted的效果相同。none——元素不再是鼠标事件的目标，鼠标不再监听当前层而去监听下面的层中的元素。但是如果它的子元素设置了pointer-events为其它值，比如auto，鼠标还是会监听这个子元素的。"
+}

@@ -1,0 +1,9 @@
+{
+    "id": 1,
+    "title": "JS中判断数据类型的三种方法",
+    "description":
+        "6种原始类型 primitive type,Boolean Null Undefined Number String Symbol (ES6 新定义)[...]",
+    "date": "2018-04-17",
+    "article":
+        "Object.prototype.toString toString是Object原型对象上的一个方法，该方法默认返回其调用者的具体类型，更严格的讲，是 toString运行时this指向的对象类型, 返回的类型格式为  ,xxx是具体的数据类型，其中包括：String,Number,Boolean,Undefined,Null,Function,Date,Array,RegExp,Error,HTMLDocument... 基本上所有对象的类型都可以通过这个方法获取到。"
+}
