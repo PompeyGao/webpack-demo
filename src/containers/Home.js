@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, PreviewList } from 'components/Home';
+import { ArticleTable, PreviewList } from 'components/Home';
 import * as listActions from '../redux/home/homeActions';
 import './Home.css';
-import image1 from './images/qgwl.gif';
-import image2 from './images/photo.jpg';
-import { dispatch } from 'rxjs/internal/observable/range';
+// import image1 from './images/qgwl.gif';
+// import image2 from './images/photo.jpg';
+// import { dispatch } from 'rxjs/internal/observable/range';
 
 @connect(
     state => {
@@ -18,21 +18,25 @@ import { dispatch } from 'rxjs/internal/observable/range';
     })
 )
 export default class Home extends PureComponent {
-    // state = {
-    //     show: false
-    // };
+    changeQuery = value => {
+        console.log(value);
+    };
 
     render() {
         // const { show } = this.state;
         // const display = show ? 'block' : 'none';
-        // console.log('Home====', this.props);
+        console.log('Home====', this.props);
         return (
-            <div>
+            <div style={{ margin: 20 }}>
                 <h1>Home</h1>
                 <PreviewList
                     {...this.props.list}
                     {...this.props.actions}
                     history={this.props.history}
+                />
+                <ArticleTable
+                    {...this.props.list}
+                    changeQuery={this.changeQuery}
                 />
                 {/* <img src={image1} />
                 <img style={{ display: `${display}` }} src={image2} />

@@ -16,7 +16,7 @@ export default class Preview extends PureComponent {
         return (
             <article>
                 <h2>
-                    <a href={`/detail/`} onClick={handleNavigate.bind(this, id)}>
+                    <a onClick={handleNavigate.bind(this, id)}>
                         {title}
                     </a>
                 </h2>

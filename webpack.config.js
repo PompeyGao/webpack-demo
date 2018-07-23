@@ -25,6 +25,7 @@ module.exports = (env, argv) => ({
             {
                 test: /\.(js|jsx)?$/,
                 include: path.resolve(__dirname, 'src'),
+                exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
                     options: {
@@ -35,6 +36,21 @@ module.exports = (env, argv) => ({
             {
                 test: /\.css$/,
                 include: [path.resolve(__dirname, 'src')],
+                use: [
+                    argv.mode === 'production'
+                        ? MiniCssExtractPlugin.loader
+                        : 'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            minimize: true // 使用 css 的压缩功能
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.css$/,
+                include: /node_modules/,
                 use: [
                     argv.mode === 'production'
                         ? MiniCssExtractPlugin.loader

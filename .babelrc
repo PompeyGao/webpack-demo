@@ -6,12 +6,20 @@
     ],
     "plugins": [
         [
-            "transform-decorators-legacy",
             "transform-runtime",
             {
                 "helpers": false,
                 "polyfill": false,
                 "regenerator": true
+            }
+        ],
+        "transform-decorators-legacy",
+        [
+            "import",
+            {
+                "libraryName": "antd",
+                "libraryDirectory": "es",
+                "style": "css"
             }
         ]
     ]
