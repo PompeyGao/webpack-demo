@@ -6,6 +6,7 @@ import store from '../redux/store';
 import Header from '../layouts/Header';
 import Home from 'containers/Home';
 import Detail from 'containers/Detail';
+import Graphic from 'containers/Graphic';
 
 export default class App extends Component {
     render() {
@@ -17,6 +18,7 @@ export default class App extends Component {
                         <Switch>
                             <Route exact path="/" component={Home} />
                             <Route path="/detail" component={Detail} />
+                            <Route path="/graphic" component={Graphic} />
                         </Switch>
                     </div>
                 </BrowserRouter>

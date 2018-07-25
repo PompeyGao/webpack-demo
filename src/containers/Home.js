@@ -26,7 +26,7 @@ export default class Home extends PureComponent {
     render() {
         // const { show } = this.state;
         // const display = show ? 'block' : 'none';
-        console.log('Home====', this.props);
+        // console.log('Home====', this.props);
         return (
             <div style={{ margin: 20 }}>
                 <h1>Home</h1>
