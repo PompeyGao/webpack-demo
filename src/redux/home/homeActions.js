@@ -20,14 +20,16 @@ function getArticleListFail() {
     return {
         type: LOAD_ARTICLES_ERROR
     };
-}
+} 
 
 export function getArticleList() {
     return function(dispatch) {
         dispatch(getArticleListRequest());
-         new Promise((resolve, reject) => {
+        new Promise((resolve, reject) => {
             return fetch(`/api/articles.json`)
-                .then(response => response.json())
+                .then(response => {
+                    return response.json();
+                })
                 .then(resData => {
                     dispatch(getArticleListSuccess(resData));
                     return resolve(resData);
