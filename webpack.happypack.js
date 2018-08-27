@@ -9,18 +9,17 @@ const os = require('os'); // node 提供的系统操作模块
 // 根据系统的内核数量 指定线程池个数 也可以其他数量
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
-module.exports = (env, argv) => ({
+module.exports = {
     mode: 'development', // production
 
     entry: {
         app: path.join(__dirname, 'src/index.js')
-        // vendor: ['react', 'react-dom', 'react-router-dom']
     },
 
     output: {
         path: path.resolve(__dirname, 'dist'),
-        // filename: 'bundle.js',
         filename: '[name].[hash].js',
+        chunkFilename: '[name].[hash].js',
         publicPath: '/'
     },
 
@@ -30,20 +29,13 @@ module.exports = (env, argv) => ({
                 test: /\.(js|jsx)?$/,
                 include: path.resolve(__dirname, 'src'),
                 use: 'happypack/loader?id=babel'
-                /* use: {
-                    loader: 'babel-loader',
-                    options: {
-                        cacheDirectory: true
-                    }
-                } */
             },
             {
                 test: /\.css$/,
                 include: [path.resolve(__dirname, 'src')],
                 use: [
-                    argv.mode === 'production'
-                        ? MiniCssExtractPlugin.loader
-                        : 'style-loader',
+                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
@@ -109,6 +101,7 @@ module.exports = (env, argv) => ({
             template: path.join(__dirname, 'static/template.html'),
             minify: {
                 // 压缩 HTML 的配置
+                removeAttributeQuotes: true, // 压缩 去掉引号
                 minifyCSS: true, // 压缩 HTML 中出现的 CSS 代码
                 minifyJS: true // 压缩 HTML 中出现的 JS 代码
             }
@@ -122,8 +115,8 @@ module.exports = (env, argv) => ({
             { from: 'static/style1.css' }
         ]),
         new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFilename: '[id].css'
+            filename: '[name].[contenthash].css',
+            chunkFilename: '[id].[contenthash].css'
         }),
         new CleanWebpackPlugin(['dist']),
         new webpack.HotModuleReplacementPlugin() // devserver  hot: true 时开启
@@ -131,7 +124,8 @@ module.exports = (env, argv) => ({
 
     resolve: {
         alias: {
-            containers: path.join(__dirname, 'src/containers')
+            containers: path.join(__dirname, 'src/containers'),
+            components: path.join(__dirname, 'src/components')
         },
         extensions: ['.js', '.json', '.jsx'],
         modules: ['node_modules', path.resolve(__dirname, 'node_modules')]
@@ -148,12 +142,14 @@ module.exports = (env, argv) => ({
             }
         }
     },
-    
+
     devServer: {
         contentBase: path.join(__dirname, './dist'),
-        port: 8000,
+        compress: true,
+        port: 4000,
         publicPath: '/',
+        historyApiFallback: true,
         open: true,
         hot: true
     }
-});
+};

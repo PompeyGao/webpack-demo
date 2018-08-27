@@ -2,21 +2,17 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = (env, argv) => ({
-    mode: 'development', // production
-
+module.exports = {
     entry: {
         app: path.join(__dirname, 'src/index.js')
-        // vendor: ['babel-polyfill', 'react', 'react-dom', 'react-router-dom']
     },
-
+    devtool: 'cheap-module-eavl-source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        // filename: 'bundle.js',
         filename: '[name].[hash].js',
+        chunkFilename: '[name].[hash].js',
         publicPath: '/'
     },
 
@@ -34,11 +30,10 @@ module.exports = (env, argv) => ({
             },
             {
                 test: /\.css$/,
-                include: [path.resolve(__dirname, 'src')],
+                include: path.resolve(__dirname, 'src'),
                 use: [
-                    argv.mode === 'production'
-                        ? MiniCssExtractPlugin.loader
-                        : 'style-loader',
+                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
@@ -92,6 +87,7 @@ module.exports = (env, argv) => ({
             template: path.join(__dirname, 'static/template.html'),
             minify: {
                 // 压缩 HTML 的配置
+                removeAttributeQuotes: true, // 压缩 去掉引号
                 minifyCSS: true, // 压缩 HTML 中出现的 CSS 代码
                 minifyJS: true // 压缩 HTML 中出现的 JS 代码
             }
@@ -105,11 +101,9 @@ module.exports = (env, argv) => ({
             { from: 'static/style1.css' }
         ]),
         new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFilename: '[id].css'
-        }),
-        new CleanWebpackPlugin(['dist']),
-        new webpack.HotModuleReplacementPlugin() // devserver  hot: true 时开启
+            filename: '[name].[contenthash].css',
+            chunkFilename: '[id].[contenthash].css'
+        })
     ],
 
     resolve: {
@@ -124,10 +118,31 @@ module.exports = (env, argv) => ({
     optimization: {
         runtimeChunk: true,
         splitChunks: {
-            chunks: 'all',
+            chunks: 'all', // 必须三选一： "initial" | "all"(默认就是all) | "async"
+            // minSize: 30000, // 最小大小，默认30000
+            // minChunks: 1, // 最小 chunk ，默认1
+            // maxAsyncRequests: 5, // 最大异步请求数， 默认5
+            // maxInitialRequests: 3, // 最大初始化请求书，默认3
+            // name: true,
+            // 上面的代码就表示，在所有代码中，引用模块大小最小为30kb，引用次数最少为1次，
+            // 按需加载最大请求次数为5，初始化加载最大请求次数为3的所有模块就行拆分到一个单独的代码块中，
+            // name表示代码的名字，设置为true则表示根据模块和缓存组的key自动生成。
             cacheGroups: {
-                commons: {
+                // default: {
+                //     minChunks: 2,
+                //     priority: -20,
+                //     reuseExistingChunk: true
+                // },
+                // 打包重复出现的代码
+                common: {
+                    // 抽离第三方插件
+                    // test: /[\\/]node_modules[\\/]/, // 指定是node_modules下的第三方包。可以传递的值类型：RegExp、String和Function
                     chunks: 'all'
+                    // priority: 0, // 默认自定义缓存组优先级为0
+                    // minChunks: 2,
+                    // maxInitialRequests: 5,
+                    // minSize: 30000,
+                    // name: 'common' // 打包后的文件名，任意命名
                 }
             }
         }
@@ -136,10 +151,10 @@ module.exports = (env, argv) => ({
     devServer: {
         contentBase: path.join(__dirname, './dist'),
         compress: true,
-        port: 8000,
+        port: 4000,
         historyApiFallback: true,
         publicPath: '/',
         open: true,
         hot: true
     }
-});
+};
