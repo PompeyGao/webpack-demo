@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-// import 'babel-polyfill';
-import Page from 'containers/Page';
+// import Page from 'containers/Page';
 
 const MOUNT_NODE = document.getElementById('root');
-
-// ReactDom.render(<Page />, MOUNT_NODE);
 
 let render = () => {
     const NEXT = require('./containers/Page.js').default;

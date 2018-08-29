@@ -8,7 +8,7 @@ module.exports = {
     entry: {
         app: path.join(__dirname, 'src/index.js')
     },
-    devtool: 'cheap-module-eavl-source-map',
+    devtool: 'cheap-module-eval-source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[hash].js',
